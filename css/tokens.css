@@ -1,0 +1,48 @@
+:root {
+  --bg: #e8ecf3;
+  --panel: #f8f9fc;
+  --panel2: #dbe2ee;
+  --ink: #161a36;
+  --mute: #535a7c;
+  --line: #c2cadc;
+  --ok: #0d7a68;
+  --warn: #8f5b00;
+  --bad: #bf2a36;
+  --accent: #3346c9;
+  --on-accent: #ffffff;
+  --body: "Barlow", "Segoe UI", system-ui, sans-serif;
+  --disp: "Barlow Condensed", "Arial Narrow", "Segoe UI", sans-serif;
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #14172b;
+    --panel: #1c2040;
+    --panel2: #272d57;
+    --ink: #ece9e1;
+    --mute: #a6aacb;
+    --line: #363c6a;
+    --ok: #56cbb3;
+    --warn: #f0b03a;
+    --bad: #ff7375;
+    --accent: #97a8ff;
+    --on-accent: #12142a;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #14172b;
+  --panel: #1c2040;
+  --panel2: #272d57;
+  --ink: #ece9e1;
+  --mute: #a6aacb;
+  --line: #363c6a;
+  --ok: #56cbb3;
+  --warn: #f0b03a;
+  --bad: #ff7375;
+  --accent: #97a8ff;
+  --on-accent: #12142a;
+}

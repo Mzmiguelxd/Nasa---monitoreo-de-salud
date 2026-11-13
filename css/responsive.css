@@ -1,0 +1,40 @@
+@media (max-width: 860px) {
+  .body-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .figure {
+    grid-column: 1/-1;
+    order: -1;
+  }
+  .figure svg {
+    max-height: 250px;
+  }
+  .two {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 520px) {
+  .body-grid {
+    grid-template-columns: 1fr;
+  }
+  .sys .s {
+    font-size: 2.6rem;
+  }
+  .sys .f {
+    min-height: 0;
+  }
+  .vit.wide {
+    grid-column: span 1;
+  }
+  .wrap {
+    padding: 0 14px 48px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .org.lv2 circle.r {
+    animation: none;
+  }
+  .toast {
+    transition: none;
+  }
+}
