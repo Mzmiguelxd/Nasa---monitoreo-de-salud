@@ -1,263 +1,256 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, viewport-fit=cover"
-    />
-    <title>Centinela: salud de la tripulación</title>
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@500;600;700&display=swap"
-    />
-    <link rel="stylesheet" href="css/tokens.css" />
-    <link rel="stylesheet" href="css/base.css" />
-    <link rel="stylesheet" href="css/estado.css" />
-    <link rel="stylesheet" href="css/vistas.css" />
-    <link rel="stylesheet" href="css/responsive.css" />
-  </head>
-  <body>
-    <div class="wrap">
-      <header class="top">
-        <div class="who">
-          <h1>Centinela</h1>
-          <p>Tu salud en ruta a Marte, vigilada por ti</p>
-        </div>
-        <span class="sim">Sensores simulados para la demostración</span>
-        <button class="btn ghost" id="sound" aria-pressed="true">
-          Voz y sonido activados
-        </button>
-      </header>
-
-      <nav aria-label="Secciones">
-        <a href="#estado">Estado</a>
-        <a href="#chequeo">Autochequeo</a>
-        <a href="#proyeccion">Proyección</a>
-        <a href="#medico">Oficial médico</a>
-      </nav>
-
-      <div class="alert" id="alert" role="alert">
-        <p id="alertText"></p>
-        <button id="alertOk">Entendido</button>
-      </div>
-
-      <section class="view" data-view="estado">
-        <div class="route">
-          <div class="row">
-            <span
-              >Día de misión <strong id="day"></strong> de
-              <span id="total"></span
-            ></span>
-            <span
-              >Una consulta a Tierra tarda <strong id="delay"></strong> en ir y
-              volver</span
-            >
-          </div>
-          <div class="track" aria-hidden="true">
-            <i id="trackFill"></i><span style="left: 0"></span
-            ><span style="left: 50%"></span><span style="left: 100%"></span
-            ><b id="ship"></b>
-          </div>
-          <div class="stops" aria-hidden="true">
-            <span>Tierra</span><span>Marte</span><span>Tierra</span>
-          </div>
-        </div>
-
-        <div class="body-grid">
-          <div class="col" id="colL"></div>
-          <div class="figure">
-            <svg
-              viewBox="0 0 200 400"
-              role="img"
-              aria-label="Figura en postura neutra de microgravedad con los cuatro sistemas vigilados"
-            >
-              <path class="limb" stroke-width="18" d="M78 98 L44 150 L62 196" />
-              <path
-                class="limb"
-                stroke-width="18"
-                d="M122 98 L156 150 L138 196"
-              />
-              <path
-                class="limb"
-                stroke-width="22"
-                d="M88 208 L66 290 L86 372"
-              />
-              <path
-                class="limb"
-                stroke-width="22"
-                d="M112 208 L134 290 L114 372"
-              />
-              <path class="limb" stroke-width="50" d="M100 96 L100 200" />
-              <circle cx="100" cy="42" r="28" fill="var(--panel2)" />
-              <g id="organs"></g>
-            </svg>
-          </div>
-          <div class="col" id="colR"></div>
-        </div>
-
-        <div class="two">
-          <div class="card">
-            <h2>Qué hacer ahora</h2>
-            <ul class="acts" id="acts"></ul>
-          </div>
-          <div class="card">
-            <h2 id="detName"></h2>
-            <ul class="factors" id="factors"></ul>
-            <p class="counter" id="counter"></p>
-          </div>
-        </div>
-
-        <div class="vitals" id="vitals"></div>
-
-        <div class="card">
-          <h2>Ensaya una emergencia</h2>
-          <p class="lead">
-            Elige una situación y mira cómo cambian los indicadores, qué alerta
-            salta y qué acción la corrige.
-          </p>
-          <div class="scn" id="scn"></div>
-        </div>
-      </section>
-
-      <section class="view" data-view="chequeo">
-        <div class="two">
-          <div class="card">
-            <h2>Chequeo diario</h2>
-            <p class="lead">
-              Los sensores no ven cómo te sientes. Dos minutos al día completan
-              el cuadro.
-            </p>
-            <div class="form">
-              <label
-                >Ánimo <output id="oMood"></output
-                ><input type="range" id="mood" min="1" max="5" step="1"
-              /></label>
-              <label
-                >Estrés <output id="oStress"></output
-                ><input type="range" id="stress" min="1" max="5" step="1"
-              /></label>
-              <label
-                >Horas dormidas <output id="oSleep"></output
-                ><input type="range" id="sleep" min="2" max="10" step="0.5"
-              /></label>
-              <div>
-                <p style="font-weight: 500; margin-bottom: 6px">
-                  Síntomas de hoy
-                </p>
-                <div class="chips" id="sym"></div>
-              </div>
-              <div>
-                <button class="btn" id="saveCheck">Guardar chequeo</button>
-              </div>
-            </div>
-          </div>
-          <div class="card">
-            <h2>Prueba de reflejos</h2>
-            <p class="lead">
-              Cinco intentos. Toca el recuadro en cuanto se ponga verde. La
-              fatiga y el CO₂ alto alargan tu tiempo de reacción antes de que tú
-              lo notes.
-            </p>
-            <button class="pad" id="pad">Empezar prueba</button>
-            <p class="res" id="pvtRes"></p>
-          </div>
-        </div>
-        <div class="card">
-          <h2>Bitácora</h2>
-          <ul class="log" id="log"></ul>
-        </div>
-      </section>
-
-      <section class="view" data-view="proyeccion">
-        <div class="card" style="margin-bottom: 18px">
-          <h2>Cómo llegas a casa según lo que hagas desde hoy</h2>
-          <p class="lead">
-            Mueve los controles y compara tu ajuste con el plan actual. Es un
-            modelo simplificado para decidir, no un pronóstico clínico.
-          </p>
-          <div class="two" style="margin-bottom: 0">
-            <div class="form">
-              <label
-                >Cumplimiento del ejercicio de resistencia
-                <output id="oAdh"></output
-                ><input type="range" id="adh" min="0" max="100" step="5"
-              /></label>
-              <label
-                >Horas diarias en la zona blindada <output id="oShel"></output
-                ><input type="range" id="shel" min="8" max="16" step="1"
-              /></label>
-              <label
-                >Tormentas solares que esperas en lo que queda
-                <output id="oStorm"></output
-                ><input type="range" id="storm" min="0" max="4" step="1"
-              /></label>
-            </div>
-            <p class="verdict" id="verdict"></p>
-          </div>
-        </div>
-        <div class="two">
-          <div class="card">
-            <h3>Densidad ósea de cadera, % de tu línea base</h3>
-            <canvas class="ch" id="chBone"></canvas>
-          </div>
-          <div class="card">
-            <h3>Radiación acumulada, mSv</h3>
-            <canvas class="ch" id="chDose"></canvas>
-          </div>
-        </div>
-        <div class="legend">
-          <span><i></i>Tu ajuste</span><span><i class="p"></i>Plan actual</span
-          ><span><i class="x"></i>Umbral</span>
-        </div>
-      </section>
-
-      <section class="view" data-view="medico">
-        <div class="card">
-          <h2>Oficial médico de a bordo</h2>
-          <p class="lead" id="aiLead">
-            Pregunta con tus datos de este momento. Si no hay asistente
-            disponible, responde el motor de reglas local, que funciona sin
-            enlace.
-          </p>
-          <div class="chat" id="chat" aria-live="polite"></div>
-          <div class="chips" id="quick" style="margin-bottom: 12px"></div>
-          <div class="askrow">
-            <input
-              type="text"
-              id="q"
-              placeholder="Escribe tu pregunta"
-              aria-label="Pregunta para el oficial médico"
-            />
-            <button class="btn" id="ask">Preguntar</button>
-          </div>
-          <p class="note">
-            Prototipo de concepto. No es un dispositivo médico ni sustituye al
-            cirujano de vuelo.
-          </p>
-        </div>
-      </section>
-      <footer class="credits">
-        <p>
-          Proyecto de equipo, Perú: Miguel Ángel Portal López, Joseph Mariano
-          Henriquez Alfaro, Joseph Iván Merino Rojas, Diego José Díaz Peralta,
-          Eduardo Fidel Cisneros Isuiza y Darwin Dionicio.
-        </p>
-      </footer>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>Centinela</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/panel.css">
+<link rel="stylesheet" href="css/vistas.css">
+<link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="brand">
+      <h1>Centinela</h1>
+      <p>Tu salud en una misión de larga duración, vigilada por ti</p>
     </div>
-    <div class="toast" id="toast" role="status"></div>
+    <span class="chip" id="lvlChip"></span>
+    <span class="chip" id="streakChip"></span>
+    <span class="sim">Sensores simulados</span>
+    <button class="btn ghost" id="sound" type="button" aria-pressed="true">Sonido activado</button>
+  </header>
 
-    <script src="js/utils.js"></script>
-    <script src="js/config.js"></script>
-    <script src="js/state.js"></script>
-    <script src="js/risk.js"></script>
-    <script src="js/services.js"></script>
-    <script src="js/ui.js"></script>
-    <script src="js/simulation.js"></script>
-    <script src="js/pvt.js"></script>
-    <script src="js/projection.js"></script>
-    <script src="js/assistant.js"></script>
-    <script src="js/ecg.js"></script>
-    <script src="js/main.js"></script>
-  </body>
+  <nav aria-label="Secciones">
+    <a href="#panel">Panel</a>
+    <a href="#registro">Registrar</a>
+    <a href="#tendencias">Tendencias</a>
+    <a href="#misiones">Misiones</a>
+    <a href="#guia">Guía</a>
+    <a href="#medico">Oficial médico</a>
+  </nav>
+
+  <div class="alert" id="alert" role="alert">
+    <p id="alertText"></p>
+    <button id="alertOk" type="button">Entendido</button>
+  </div>
+
+  <section class="view" data-view="panel">
+    <div class="card mission">
+      <div class="env" id="env" role="radiogroup" aria-label="Entorno de la misión"></div>
+      <dl class="facts">
+        <div><dt>Día de misión</dt><dd id="fDia"></dd></div>
+        <div><dt>Gravedad</dt><dd id="fGrav"></dd></div>
+        <div><dt>Radiación ahora</dt><dd id="fRad"></dd></div>
+        <div><dt>Respuesta de Tierra</dt><dd id="fRet"></dd></div>
+      </dl>
+      <p class="envdesc" id="envDesc"></p>
+    </div>
+
+    <div class="ladder" id="ladder" aria-label="Nivel de atención">
+      <div class="step s0"><strong>Rutina</strong><small>Todo en rango</small></div>
+      <div class="step s1"><strong>Autocuidado</strong><small>Sigue la acción y vuelve a medir</small></div>
+      <div class="step s2"><strong>Oficial médico</strong><small>Avisa ahora a bordo</small></div>
+      <div class="step s3"><strong>Cirujanos de vuelo</strong><small>Envía el informe a Tierra</small></div>
+    </div>
+
+    <div class="body-grid">
+      <div class="card figure">
+        <svg viewBox="0 0 200 400" role="group" aria-label="Cuerpo con ocho zonas de salud. Toca un punto para ver su estado.">
+          <path class="limb" stroke-width="18" d="M78 98 L44 150 L62 196"/>
+          <path class="limb" stroke-width="18" d="M122 98 L156 150 L138 196"/>
+          <path class="limb" stroke-width="22" d="M88 208 L66 290 L86 372"/>
+          <path class="limb" stroke-width="22" d="M112 208 L134 290 L114 372"/>
+          <path class="limb" stroke-width="50" d="M100 96 L100 200"/>
+          <circle cx="100" cy="42" r="28" fill="var(--panel2)"/>
+          <g id="zonas"></g>
+        </svg>
+        <p class="legend"><span><i class="l0"></i>En rango</span><span><i class="l1"></i>Vigilar</span><span><i class="l2"></i>Actuar</span></p>
+        <div class="chips" id="zonaChips"></div>
+      </div>
+      <div class="card zone" id="zone" aria-live="polite"></div>
+    </div>
+
+    <div class="two">
+      <div class="card">
+        <h2>Qué hacer ahora</h2>
+        <ul class="acts" id="acts"></ul>
+      </div>
+      <div class="card">
+        <h2>Ensaya una emergencia</h2>
+        <p class="lead">Elige una situación y mira cómo cambian los colores, qué alerta salta, cuándo conviene avisar a Tierra y qué acción lo corrige.</p>
+        <div class="scn" id="scn"></div>
+      </div>
+    </div>
+
+    <h2 class="sec">Indicadores de hoy</h2>
+    <div class="vitals" id="vitals"></div>
+  </section>
+
+  <section class="view" data-view="registro">
+    <div class="two">
+      <form class="card form" id="form" novalidate>
+        <h2>Registro del día</h2>
+        <p class="lead">Escribe lo que mediste. El color te dice al instante si está en rango; abre «Cómo se mide» si tienes dudas.</p>
+        <div class="fields" id="fields"></div>
+        <div class="range-row">
+          <label for="animo">Ánimo <output id="oAnimo"></output></label>
+          <input type="range" id="animo" min="1" max="5" step="1">
+        </div>
+        <div class="range-row">
+          <label for="estres">Estrés <output id="oEstres"></output></label>
+          <input type="range" id="estres" min="1" max="5" step="1">
+        </div>
+        <div>
+          <p class="subhead">Síntomas de hoy</p>
+          <div class="chips" id="sym"></div>
+        </div>
+        <div><button class="btn" type="submit">Guardar registro</button></div>
+      </form>
+      <div class="col">
+        <div class="card cam">
+          <h2>Pulso con la cámara</h2>
+          <p class="lead">La yema del dedo sobre la lente y el flash cambia de color con cada latido. Centinela cuenta esos cambios durante 20 segundos.</p>
+          <div class="stage">
+            <video id="camVideo" playsinline muted aria-label="Vista de la cámara"></video>
+            <canvas id="camWave" aria-hidden="true"></canvas>
+          </div>
+          <div class="bar"><i id="camProg"></i></div>
+          <div class="readout"><span class="bpm" id="camBpm">—</span><span>lpm</span></div>
+          <p class="msg" id="camMsg">Funciona mejor en un teléfono con flash. Si la cámara no está disponible, mide a mano.</p>
+          <div class="chips">
+            <button class="btn" id="camBtn" type="button">Medir con la cámara</button>
+            <button class="btn ghost" id="camUsar" type="button" hidden>Pasar al registro</button>
+          </div>
+        </div>
+        <div class="card">
+          <h2>Prueba de reflejos</h2>
+          <p class="lead">Cinco intentos. Toca el recuadro en cuanto se ponga verde. La fatiga y el CO₂ alto alargan tu tiempo de reacción antes de que lo notes.</p>
+          <button class="pad" id="pad" type="button">Empezar prueba</button>
+          <p class="res" id="pvtRes"></p>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Bitácora</h2>
+      <ul class="log" id="log"></ul>
+    </div>
+  </section>
+
+  <section class="view" data-view="tendencias">
+    <div class="card" style="margin-bottom:16px">
+      <h2>Cómo cambian tus indicadores</h2>
+      <p class="lead">Últimos 30 días de misión. La franja verde es el rango esperado y cada punto toma el color de su estado.</p>
+      <div class="chips" id="trendPick"></div>
+      <canvas class="ch" id="chTrend" style="margin-top:14px"></canvas>
+      <div class="legend2"><span><i></i>Tu valor diario</span><span><i class="band"></i>Rango verde</span></div>
+      <p class="trendnote" id="trendNote"></p>
+    </div>
+    <div class="card" style="margin-bottom:16px">
+      <h2>Cómo llegas a casa según lo que hagas desde hoy</h2>
+      <p class="lead">Plan de 860 días: 180 de ida, 500 en Marte y 180 de vuelta. Mueve los controles y compara con el plan actual. Es un modelo simplificado para decidir, no un pronóstico clínico.</p>
+      <div class="two" style="margin-bottom:0">
+        <div class="form">
+          <div class="range-row"><label for="adh">Cumplimiento del ejercicio <output id="oAdh"></output></label><input type="range" id="adh" min="0" max="100" step="5"></div>
+          <div class="range-row"><label for="ref">Horas diarias en la zona blindada <output id="oRef"></output></label><input type="range" id="ref" min="8" max="16" step="1"></div>
+          <div class="range-row"><label for="tor">Tormentas solares en lo que queda <output id="oTor"></output></label><input type="range" id="tor" min="0" max="4" step="1"></div>
+        </div>
+        <p class="verdict" id="verdict"></p>
+      </div>
+    </div>
+    <div class="two">
+      <div class="card"><h3>Densidad ósea de cadera, % de tu línea base</h3><canvas class="ch" id="chBone"></canvas></div>
+      <div class="card"><h3>Radiación acumulada, mSv</h3><canvas class="ch" id="chDose"></canvas></div>
+    </div>
+    <div class="legend2"><span><i></i>Tu ajuste</span><span><i class="p"></i>Plan actual</span><span><i class="x"></i>Umbral</span></div>
+  </section>
+
+  <section class="view" data-view="misiones">
+    <div class="two">
+      <div class="card">
+        <h2>Misiones de hoy</h2>
+        <div class="xp">
+          <div class="row"><strong id="xpNivel"></strong><span id="xpTxt"></span></div>
+          <div class="bar"><i id="xpBar"></i></div>
+          <span id="misCount" class="empty"></span>
+        </div>
+        <ul class="tasks" id="tasks"></ul>
+      </div>
+      <div class="card">
+        <h2>Insignias</h2>
+        <p class="lead">Premian la constancia en los hábitos que protegen tu salud.</p>
+        <ul class="badges" id="badges"></ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="view" data-view="guia">
+    <h2 class="sec">Los cinco peligros del vuelo espacial</h2>
+    <div class="hazards" id="hazards"></div>
+    <div class="card" style="margin-bottom:16px">
+      <h2>Indicadores y sus colores</h2>
+      <p class="lead">Rangos de referencia de este prototipo, inspirados en valores clínicos generales. No sustituyen el criterio médico.</p>
+      <div class="tbl">
+        <table id="indTable">
+          <thead><tr><th>Indicador</th><th>Zona</th><th>En rango</th><th>Vigilar</th><th>Actuar</th><th>Cómo se mide</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="two">
+      <div class="card">
+        <h2>Cuándo avisar</h2>
+        <ol class="srcs" id="ladderGuide"></ol>
+      </div>
+      <div class="card">
+        <h2>Fuentes</h2>
+        <ul class="srcs" id="srcs"></ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="view" data-view="medico">
+    <div class="card">
+      <h2>Oficial médico de a bordo</h2>
+      <p class="lead" id="aiLead">Responde el motor de reglas local, que funciona sin conexión con tus indicadores de este momento.</p>
+      <div class="chat" id="chat" aria-live="polite"></div>
+      <div class="chips" id="quick" style="margin-bottom:12px"></div>
+      <div class="askrow">
+        <input type="text" id="q" placeholder="Escribe tu pregunta" aria-label="Pregunta para el oficial médico">
+        <button class="btn" id="ask" type="button">Preguntar</button>
+      </div>
+      <div id="reportBox" hidden>
+        <h3 style="margin-top:18px">Informe para los cirujanos de vuelo</h3>
+        <textarea class="report" id="report" aria-label="Informe para Tierra"></textarea>
+        <div class="chips" style="margin-top:8px"><button class="btn" id="copyRep" type="button">Copiar informe</button></div>
+      </div>
+      <p class="note">Prototipo de concepto. No es un dispositivo médico ni sustituye al oficial médico ni a los cirujanos de vuelo.</p>
+    </div>
+  </section>
+
+  <footer class="credits">
+    <p>Proyecto para el NASA Space Apps Challenge 2026, evento local Lima, Perú. Equipo: Miguel Ángel Portal López, Joseph Mariano Henríquez Alfaro, Joseph Iván Merino Rojas, Diego José Díaz Peralta, Eduardo Fidel Cisneros Isuiza y Darwin Dionicio.</p>
+    <p>Datos de referencia: Programa de Investigación Humana de la NASA y Agencia Espacial Canadiense. La NASA no respalda este proyecto.</p>
+  </footer>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<script src="js/utils.js"></script>
+<script src="js/data.js"></script>
+<script src="js/state.js"></script>
+<script src="js/evaluate.js"></script>
+<script src="js/services.js"></script>
+<script src="js/simulation.js"></script>
+<script src="js/ui-panel.js"></script>
+<script src="js/registro.js"></script>
+<script src="js/tendencias.js"></script>
+<script src="js/misiones.js"></script>
+<script src="js/guia.js"></script>
+<script src="js/asistente.js"></script>
+<script src="js/main.js"></script>
+</body>
 </html>

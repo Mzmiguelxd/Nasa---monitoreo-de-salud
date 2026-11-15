@@ -1,85 +1,79 @@
 # Centinela
 
-Software de monitoreo de salud para tripulaciones en misiones de larga duración. Recopila indicadores, calcula el riesgo de cuatro sistemas del cuerpo y le dice al astronauta qué hacer, sin depender de una respuesta inmediata de Tierra.
+Monitoreo de salud para astronautas en misiones de larga duración. Proyecto para el **NASA Space Apps Challenge 2026**, evento local Lima, Perú, reto «Crear software de monitoreo de la salud para astronautas en misiones espaciales».
 
-## El problema
+![Panel de Centinela](docs/capturas/panel.png)
 
-En una misión a Marte la tripulación está expuesta a radiación, aislamiento, gravedad alterada y un entorno cerrado. Eso provoca cambios inmunológicos, pérdida ósea, eventos cardiovasculares y problemas de salud conductual. Una consulta a Tierra puede tardar más de media hora en ir y volver, así que la detección temprana recae en el propio astronauta.
+En una misión a Marte cada consulta a Tierra tarda minutos en ir y volver, así que el astronauta debe detectar y atender sus propios cambios de salud. Centinela recopila sus indicadores, le muestra en un cuerpo interactivo qué sistema está en riesgo, le dice qué hacer y cuándo avisar a los cirujanos de vuelo.
 
-## Qué hace
+## Qué incluye
 
-| Paso | Función |
-| --- | --- |
-| Recopilar | Signos vitales en vivo con trazo de ECG, CO₂ de cabina, radiación, densidad ósea, sueño y un chequeo diario de ánimo, estrés y síntomas |
-| Evaluar | Cuatro índices de riesgo de 0 a 100 (mente y conducta, corazón y circulación, defensas e inmunidad, huesos y músculo) con los factores que los componen |
-| Actuar | Lista priorizada de acciones; al marcarlas como hechas los indicadores responden |
-| Anticipar | Proyección de densidad ósea y radiación acumulada hasta el regreso según ejercicio, horas blindado y tormentas solares |
-| Ensayar | Simulador de emergencias: tormenta solar, falla del depurador de CO₂, falta de sueño y taquicardia |
-| Consultar | Oficial médico de a bordo con motor de reglas local que funciona sin enlace |
-
-También incluye una prueba de reflejos de cinco intentos para detectar fatiga y una bitácora que se guarda en el navegador.
+- **Cuerpo interactivo** con ocho zonas: mente y sueño, ojos, equilibrio, pulmones, corazón, defensas, metabolismo, huesos y músculos. Cada una explica qué hace, cómo le afecta el espacio y su estado.
+- **Código de colores** verde, ámbar y rojo en todo el sistema, y una **escalera de atención** de cuatro niveles: rutina, autocuidado, oficial médico y cirujanos de vuelo.
+- **Registro** por teclado y clics, con «Cómo se mide» en cada indicador, incluida la glucosa en mg/dL.
+- **Pulso con la cámara** del teléfono, cubriendo la lente y el flash con el dedo.
+- **Prueba de reflejos** para detectar fatiga.
+- **Cuatro entornos:** nave en crucero, estación orbital, rover y base en Marte.
+- **Seis emergencias** para ensayar: tormenta solar, falla de CO₂, insomnio, taquicardia, glucosa baja.
+- **Tendencias** de 30 días y **proyección** de densidad ósea y radiación hasta el regreso.
+- **Misiones diarias** con experiencia, nivel, racha e insignias.
+- **Oficial médico** con motor de reglas local e **informe para Tierra** listo para copiar.
 
 ## Cómo ejecutarlo
 
-Abre `index.html` en un navegador. No requiere instalación ni servidor.
+Abre `index.html` en un navegador. No necesita instalación ni servidor.
 
-Para servirlo en red local:
-
-```
-npx serve .
-```
+El pulso por cámara necesita una página con https, por ejemplo GitHub Pages: en el repositorio, **Settings → Pages → rama `main`, carpeta `/ (root)`**.
 
 ## Estructura
 
 ```
 centinela/
 ├── index.html
-├── css/
-│   ├── tokens.css        colores y tipografías, modo claro y oscuro
-│   ├── base.css          estilos generales, cabecera y navegación
-│   ├── estado.css        vista principal: figura, índices, acciones, signos
-│   ├── vistas.css        autochequeo, proyección y oficial médico
-│   └── responsive.css    adaptación a pantallas pequeñas
+├── css/        tokens, base, panel, vistas, responsive
 ├── js/
-│   ├── utils.js          utilidades de DOM y formato
-│   ├── config.js         valores base, escenarios, sistemas y rangos
-│   ├── state.js          estado de la aplicación y guardado local
-│   ├── risk.js           cálculo de riesgo y reglas de acción
-│   ├── services.js       sonido, voz y conexión con el asistente
-│   ├── ui.js             construcción y actualización de la interfaz
-│   ├── simulation.js     simulación de sensores
-│   ├── pvt.js            prueba de reflejos
-│   ├── projection.js     modelo y gráficos de proyección
-│   ├── assistant.js      oficial médico
-│   ├── ecg.js            trazo de ECG
-│   └── main.js           rutas e inicio
+│   ├── utils.js        utilidades
+│   ├── data.js         indicadores, rangos, zonas, entornos, peligros
+│   ├── state.js        estado, historial y modelo de la misión
+│   ├── evaluate.js     niveles, escalera de atención y acciones
+│   ├── services.js     sonido, voz y asistente
+│   ├── simulation.js   sensores simulados y emergencias
+│   ├── ui-panel.js     panel y cuerpo interactivo
+│   ├── registro.js     registro, pulso por cámara y reflejos
+│   ├── tendencias.js   gráficos y proyección
+│   ├── misiones.js     misiones e insignias
+│   ├── guia.js         guía de peligros e indicadores
+│   ├── asistente.js    oficial médico e informe
+│   └── main.js         rutas e inicio
 └── docs/
-    └── modelo-de-riesgo.md
+    ├── DOCUMENTACION.md   Misión 1, 2 y 3
+    ├── prototipo/         bocetos de baja fidelidad
+    └── capturas/          pantallas de la versión 1.0
 ```
 
-## Tecnologías
+## Documentación
 
-HTML5, CSS3 con variables y Grid, JavaScript sin frameworks, SVG, Canvas 2D, Web Audio API, Web Speech API y localStorage.
+La documentación completa, organizada en Misión 1 (define el problema), Misión 2 (planifica el prototipo) y Misión 3 (construye), está en [`docs/DOCUMENTACION.md`](docs/DOCUMENTACION.md).
 
 ## Limitaciones
 
-- Los sensores son simulados. La arquitectura separa la simulación (`simulation.js`) del cálculo (`risk.js`) para poder conectar sensores reales.
-- Los umbrales y pesos del modelo de riesgo y la proyección son simplificaciones de un prototipo, no valores clínicos validados. Ver `docs/modelo-de-riesgo.md`.
-- No es un dispositivo médico.
+Los sensores continuos son simulados. Los rangos de color y el modelo de proyección son simplificaciones del prototipo, sin validación clínica. Centinela no es un dispositivo médico.
+
+## Datos
+
+Programa de Investigación Humana de la NASA y Agencia Espacial Canadiense; mediciones de radiación del rover Curiosity. La NASA no respalda este proyecto.
 
 ## Uso de inteligencia artificial
 
-El código y los textos de este prototipo se generaron con ayuda de Claude (Anthropic) y fueron revisados por el equipo.
+El código, los bocetos y la documentación se generaron con ayuda de Claude (Anthropic) y fueron revisados por el equipo.
 
 ## Equipo
 
-Perú
-
-| Integrante | Usuario | Rol |
-| --- | --- | --- |
-| Miguel Ángel Portal López | @loxware | Líder del equipo |
-| Joseph Mariano Henriquez Alfaro | @jojoalfz | |
-| Joseph Iván Merino Rojas | @josephmr | |
-| Diego José Díaz Peralta | @diandres | |
-| Eduardo Fidel Cisneros Isuiza | @eduardo_cis | |
-| Darwin Dionicio | @eldarwin | |
+| Integrante | Usuario |
+| --- | --- |
+| Miguel Ángel Portal López (líder) | @loxware |
+| Joseph Mariano Henríquez Alfaro | @jojoalfz |
+| Joseph Iván Merino Rojas | @josephmr |
+| Diego José Díaz Peralta | @diandres |
+| Eduardo Fidel Cisneros Isuiza | @eduardo_cis |
+| Darwin Dionicio | @eldarwin |

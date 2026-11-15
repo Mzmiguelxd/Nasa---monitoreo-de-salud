@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Centinela · Prototipo de pantallas</title>
+<style>
+:root{--bg:#f4f5f7;--paper:#fff;--ink:#2a2d3a;--mute:#7a7f93;--box:#e3e6ec;--line:#b9bfcc;--ok:#7fbfae;--warn:#e3c07a;--bad:#e39a9f;--acc:#8d98e0}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.4 "Comic Sans MS","Chalkboard SE","Segoe Print",system-ui,sans-serif;padding:24px}
+h1{font-size:22px;margin:0 0 4px}
+.sub{color:var(--mute);margin:0 0 22px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(460px,1fr));gap:22px}
+.frame{background:var(--paper);border:2px solid var(--ink);border-radius:10px;padding:14px;display:grid;gap:10px;align-content:start}
+.frame h2{font-size:17px;margin:0;display:flex;justify-content:space-between}
+.frame h2 span{color:var(--mute);font-weight:400;font-size:13px}
+.nav{display:flex;gap:6px}.nav i{flex:1;height:22px;border:1.5px solid var(--line);border-radius:5px;font-style:normal;font-size:11px;display:grid;place-items:center;color:var(--mute)}
+.nav i.on{border-color:var(--ink);color:var(--ink);font-weight:700}
+.b{border:1.5px dashed var(--line);border-radius:7px;padding:8px;font-size:12px;color:var(--mute);display:grid;gap:6px;align-content:start}
+.row{display:grid;gap:8px}.c2{grid-template-columns:1fr 1fr}.c3{grid-template-columns:repeat(3,1fr)}.c4{grid-template-columns:repeat(4,1fr)}.c5{grid-template-columns:1fr 1.5fr}
+.bar{height:9px;border-radius:5px;background:var(--box)}.bar.s{width:60%}.bar.xs{width:35%}
+.dot{display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:4px;vertical-align:-1px}
+.ok{background:var(--ok)}.warn{background:var(--warn)}.bad{background:var(--bad)}.acc{background:var(--acc)}
+.tile{border:1.5px solid var(--line);border-top-width:5px;border-radius:6px;padding:6px;font-size:11px;color:var(--mute);display:grid;gap:4px}
+.tile.ok{background:none;border-top-color:var(--ok)}.tile.warn{background:none;border-top-color:var(--warn)}.tile.bad{background:none;border-top-color:var(--bad)}
+.n{font-size:16px;color:var(--ink);font-weight:700}
+.body{display:grid;place-items:center;height:210px}
+.note{font-size:12px;color:#b4505a;border-left:3px solid #b4505a;padding-left:8px}
+.btn{display:inline-block;border:1.5px solid var(--ink);border-radius:6px;padding:3px 10px;font-size:12px;color:var(--ink)}
+.chart{height:110px;border:1.5px solid var(--line);border-radius:6px;position:relative;overflow:hidden}
+.chart svg{position:absolute;inset:0;width:100%;height:100%}
+</style>
+</head>
+<body>
+<h1>Centinela · Prototipo de pantallas</h1>
+<p class="sub">Bocetos de baja fidelidad, Misión 2. Las notas en rojo explican cada decisión.</p>
+<div class="grid">
+
+<section class="frame" id="f1">
+  <h2>1. Panel <span>¿Cómo estoy ahora?</span></h2>
+  <div class="nav"><i class="on">Panel</i><i>Registrar</i><i>Tendencias</i><i>Misiones</i><i>Guía</i><i>Médico</i></div>
+  <div class="b">Entorno: [Nave] [Estación] [Rover] [Base]  ·  Día 214  ·  3/8 g  ·  Respuesta de Tierra 33 min</div>
+  <div class="row c4"><div class="tile ok">Rutina</div><div class="tile">Autocuidado</div><div class="tile">Oficial médico</div><div class="tile">Cirujanos de vuelo</div></div>
+  <div class="row c5">
+    <div class="b body"><svg viewBox="0 0 120 200" width="100" height="190"><circle cx="60" cy="22" r="16" fill="none" stroke="#b9bfcc" stroke-width="2"/><rect x="42" y="42" width="36" height="66" rx="12" fill="none" stroke="#b9bfcc" stroke-width="2"/><path d="M44 50 L22 90 M76 50 L98 90 M50 108 L42 180 M70 108 L78 180" stroke="#b9bfcc" stroke-width="8" stroke-linecap="round"/><circle cx="60" cy="12" r="5" fill="#e3c07a"/><circle cx="66" cy="62" r="5" fill="#e39a9f"/><circle cx="52" cy="58" r="5" fill="#7fbfae"/><circle cx="60" cy="92" r="5" fill="#7fbfae"/><circle cx="48" cy="140" r="5" fill="#7fbfae"/><circle cx="92" cy="84" r="5" fill="#7fbfae"/></svg></div>
+    <div class="b"><b style="color:var(--ink)">Corazón y circulación <span class="dot bad"></span></b>Qué hace · Cómo le afecta el espacio<div class="bar"></div><div class="bar s"></div>Indicadores con color<div class="bar"></div><div class="bar"></div>Qué hacer<div class="bar s"></div></div>
+  </div>
+  <div class="row c2"><div class="b">Qué hacer ahora<div class="bar"></div><div class="bar s"></div><span class="btn">Hecho</span></div><div class="b">Ensaya una emergencia<br>[Tormenta] [CO₂] [Taquicardia]</div></div>
+  <div class="row c4"><div class="tile ok"><span class="n">62</span>lpm</div><div class="tile ok"><span class="n">118/76</span></div><div class="tile warn"><span class="n">6,4 h</span>sueño</div><div class="tile ok"><span class="n">91</span>mg/dL</div></div>
+  <p class="note">El cuerpo es el centro: el astronauta ve de un vistazo qué parte está en ámbar o rojo y la toca para saber por qué. La escalera responde «¿a quién aviso?».</p>
+</section>
+
+<section class="frame" id="f2">
+  <h2>2. Registrar <span>Teclado, clics y cámara</span></h2>
+  <div class="nav"><i>Panel</i><i class="on">Registrar</i><i>Tendencias</i><i>Misiones</i><i>Guía</i><i>Médico</i></div>
+  <div class="row c5">
+    <div class="b">Registro del día
+      <div class="row c2"><div>Presión [118] <span class="dot ok"></span></div><div>Glucosa [91] <span class="dot ok"></span></div><div>Sueño [6,4] <span class="dot warn"></span></div><div>Temperatura [  ]</div></div>
+      ▸ Cómo se mide (pasos)
+      Ánimo ———●—— · Estrés —●————
+      Síntomas: (Visión borrosa) (Mareo) (Palpitaciones)…
+      <span class="btn">Guardar registro</span>
+    </div>
+    <div class="row">
+      <div class="b">Pulso con la cámara<div class="chart" style="height:50px"><svg viewBox="0 0 200 50" preserveAspectRatio="none"><polyline fill="none" stroke="#8d98e0" stroke-width="2" points="0,30 20,28 30,10 40,34 60,30 80,29 90,10 100,34 120,30 140,29 150,10 160,34 180,30 200,29"/></svg></div><span class="n">72 lpm</span><span class="btn">Medir 20 s</span></div>
+      <div class="b">Prueba de reflejos<div style="height:50px;border:1.5px dashed var(--line);border-radius:6px;display:grid;place-items:center">Toca al ver verde</div></div>
+    </div>
+  </div>
+  <p class="note">Cada campo se colorea mientras escribes. La cámara mide el pulso sin equipo extra: el dedo cubre la lente y el flash.</p>
+</section>
+
+<section class="frame" id="f3">
+  <h2>3. Tendencias <span>¿Cómo voy cambiando?</span></h2>
+  <div class="nav"><i>Panel</i><i>Registrar</i><i class="on">Tendencias</i><i>Misiones</i><i>Guía</i><i>Médico</i></div>
+  <div class="b">(Sueño) (Pulso) (Presión) (Glucosa) …
+    <div class="chart"><svg viewBox="0 0 300 110" preserveAspectRatio="none"><rect x="0" y="20" width="300" height="40" fill="#e2f1ec"/><polyline fill="none" stroke="#8d98e0" stroke-width="2.5" points="0,45 30,40 60,48 90,38 120,44 150,42 180,40 210,70 240,72 270,75 300,74"/></svg></div>
+    «Tu sueño bajó 0,9 h esta semana»
+  </div>
+  <div class="row c2"><div class="b">¿Con qué hueso llegas a casa?<div class="chart" style="height:70px"><svg viewBox="0 0 200 70" preserveAspectRatio="none"><line x1="0" y1="45" x2="200" y2="45" stroke="#e39a9f" stroke-dasharray="5 4"/><polyline fill="none" stroke="#8d98e0" stroke-width="2.5" points="0,5 60,20 200,55"/></svg></div></div><div class="b">Radiación acumulada<div class="chart" style="height:70px"><svg viewBox="0 0 200 70" preserveAspectRatio="none"><line x1="0" y1="30" x2="200" y2="30" stroke="#e39a9f" stroke-dasharray="5 4"/><polyline fill="none" stroke="#8d98e0" stroke-width="2.5" points="0,68 40,48 160,30 200,8"/></svg></div></div></div>
+  <div class="b">Ejercicio ——●— · Horas blindado —●——— · Tormentas ●————</div>
+  <p class="note">El gráfico cuenta una historia en una frase. La proyección convierte el hábito de hoy en el resultado al volver.</p>
+</section>
+
+<section class="frame" id="f4">
+  <h2>4. Misiones y Oficial médico <span>Rutina y ayuda</span></h2>
+  <div class="nav"><i>Panel</i><i>Registrar</i><i>Tendencias</i><i class="on">Misiones</i><i>Guía</i><i>Médico</i></div>
+  <div class="row c2">
+    <div class="b">Nivel 3 · 540 XP <div class="bar"><div class="bar acc" style="width:30%"></div></div>
+      <div>✓ Registra tus signos +20</div><div>○ Mide tu pulso +15</div><div>○ 150 min de ejercicio +30</div><div>○ Habla con alguien +15</div></div>
+    <div class="b">Insignias<div class="row c3"><span class="dot acc" style="width:26px;height:26px"></span><span class="dot" style="width:26px;height:26px;background:var(--box)"></span><span class="dot" style="width:26px;height:26px;background:var(--box)"></span></div>Semana constante · Huesos de acero · Escudo solar</div>
+  </div>
+  <div class="b">Oficial médico · [¿Qué vigilo hoy?] [¿Cuándo aviso a Tierra?]
+    <div class="bar"></div><div class="bar s"></div>
+    Informe para cirujanos de vuelo [Copiar]
+  </div>
+  <p class="note">Las misiones premian la constancia, no la competencia. El oficial médico funciona sin conexión con reglas locales.</p>
+</section>
+
+</div>
+</body>
+</html>

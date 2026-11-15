@@ -1,22 +1,74 @@
-.view {
-  display: none;
-}
-.view.on {
-  display: block;
-}
 .form {
   display: grid;
   gap: 16px;
 }
-.form label {
+.fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px 16px;
+}
+.field {
   display: grid;
   gap: 4px;
+  min-width: 0;
+}
+.field label {
+  font-weight: 500;
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  align-items: center;
+}
+.field .in {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.field input[type="number"] {
+  width: 100%;
+  min-width: 0;
+  background: var(--bg);
+  border: 1.5px solid var(--line);
+  border-radius: 7px;
+  padding: 9px 10px;
+  font-variant-numeric: tabular-nums;
+}
+.field .u {
+  color: var(--mute);
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+.field details {
+  font-size: 0.88rem;
+  color: var(--mute);
+}
+.field summary {
+  cursor: pointer;
+  color: var(--accent);
   font-weight: 500;
 }
-.form output {
+.field ol {
+  margin: 6px 0 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 3px;
+}
+.field .why {
+  margin-top: 6px;
+}
+.range-row {
+  display: grid;
+  gap: 4px;
+}
+.range-row label {
+  font-weight: 500;
+  display: flex;
+  justify-content: space-between;
+}
+.range-row output {
   font-family: var(--disp);
-  font-size: 1.3rem;
   font-weight: 600;
+  font-size: 1.15rem;
 }
 input[type="range"] {
   width: 100%;
@@ -29,21 +81,61 @@ input[type="text"] {
   border-radius: 7px;
   padding: 10px 12px;
 }
-.chips {
+.subhead {
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+.cam {
+  display: grid;
+  gap: 10px;
+}
+.cam .stage {
+  display: grid;
+  grid-template-columns: 96px 1fr;
+  gap: 12px;
+  align-items: center;
+}
+.cam video {
+  width: 96px;
+  height: 72px;
+  border-radius: 8px;
+  background: var(--panel2);
+  object-fit: cover;
+}
+.cam canvas {
+  width: 100%;
+  height: 72px;
+  background: var(--bg);
+  border-radius: 8px;
+}
+.cam .readout {
   display: flex;
+  align-items: baseline;
+  gap: 10px;
   flex-wrap: wrap;
-  gap: 8px;
 }
-.chip {
-  background: transparent;
-  border: 1.5px solid var(--line);
-  border-radius: 20px;
-  padding: 5px 13px;
+.cam .bpm {
+  font-family: var(--disp);
+  font-size: 2.4rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
 }
-.chip[aria-pressed="true"] {
+.cam .msg {
+  color: var(--mute);
+  font-size: 0.92rem;
+}
+.cam .bar {
+  height: 6px;
+  background: var(--panel2);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.cam .bar i {
+  display: block;
+  height: 100%;
+  width: 0;
   background: var(--accent);
-  color: var(--on-accent);
-  border-color: var(--accent);
 }
 .pad {
   display: flex;
@@ -51,12 +143,12 @@ input[type="text"] {
   justify-content: center;
   text-align: center;
   width: 100%;
-  min-height: 190px;
+  min-height: 150px;
   border-radius: 10px;
   border: 2px dashed var(--line);
   background: var(--bg);
   font-family: var(--disp);
-  font-size: 1.5rem;
+  font-size: 1.45rem;
   font-weight: 600;
   padding: 16px;
   user-select: none;
@@ -72,7 +164,7 @@ input[type="text"] {
   color: var(--on-accent);
 }
 .res {
-  margin-top: 12px;
+  margin-top: 10px;
   color: var(--mute);
 }
 .log {
@@ -81,12 +173,12 @@ input[type="text"] {
   padding: 0;
   display: grid;
   gap: 8px;
-  max-height: 300px;
+  max-height: 320px;
   overflow: auto;
 }
 .log li {
   display: grid;
-  grid-template-columns: 74px 1fr;
+  grid-template-columns: 82px 1fr;
   gap: 10px;
   font-size: 0.95rem;
   border-bottom: 1px solid var(--line);
@@ -102,17 +194,17 @@ input[type="text"] {
 canvas.ch {
   display: block;
   width: 100%;
-  height: 230px;
+  height: 240px;
 }
-.legend {
+.legend2 {
   display: flex;
   gap: 16px;
   flex-wrap: wrap;
   font-size: 0.88rem;
   color: var(--mute);
-  margin-top: 6px;
+  margin-top: 8px;
 }
-.legend i {
+.legend2 i {
   display: inline-block;
   width: 18px;
   height: 0;
@@ -120,22 +212,219 @@ canvas.ch {
   vertical-align: middle;
   margin-right: 6px;
 }
-.legend i.p {
+.legend2 i.p {
   border-top: 3px dashed var(--mute);
 }
-.legend i.x {
+.legend2 i.x {
   border-top: 2px dashed var(--bad);
 }
+.legend2 i.band {
+  height: 10px;
+  border: 0;
+  background: var(--ok-bg);
+}
+.trendnote {
+  margin-top: 10px;
+  max-width: 70ch;
+}
 .verdict {
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   max-width: 66ch;
-  margin-top: 16px;
+}
+.xp {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+.xp .row {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+  font-variant-numeric: tabular-nums;
+}
+.xp .row strong {
+  font-family: var(--disp);
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+.xp .bar {
+  height: 10px;
+  background: var(--panel2);
+  border-radius: 5px;
+  overflow: hidden;
+}
+.xp .bar i {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+  transition: width 0.4s;
+}
+.tasks {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+.tasks li {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 12px;
+  align-items: center;
+  border: 1.5px solid var(--line);
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+.tasks li.done {
+  background: var(--ok-bg);
+  border-color: transparent;
+}
+.tasks .tick {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 2px solid var(--line);
+  background: transparent;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  padding: 0;
+}
+.tasks li.done .tick {
+  background: var(--ok);
+  border-color: var(--ok);
+  color: var(--on-accent);
+}
+.tasks .tick:disabled {
+  cursor: default;
+}
+.tasks small {
+  display: block;
+  color: var(--mute);
+  font-size: 0.85rem;
+}
+.tasks .xpv {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--accent);
+}
+.badges {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 10px;
+}
+.badges li {
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  padding: 12px;
+  display: grid;
+  gap: 6px;
+  align-content: start;
+}
+.badges li.got {
+  border-color: var(--accent);
+  background: var(--panel2);
+}
+.badges .emb {
+  width: 42px;
+  height: 42px;
+}
+.badges .emb polygon {
+  fill: var(--line);
+}
+.badges li.got .emb polygon {
+  fill: var(--accent);
+}
+.badges .emb text {
+  fill: var(--panel);
+  font-family: var(--disp);
+  font-weight: 700;
+  font-size: 15px;
+}
+.badges strong {
+  font-family: var(--disp);
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+.badges small {
+  color: var(--mute);
+  font-size: 0.85rem;
+}
+.prog {
+  height: 5px;
+  background: var(--panel2);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.prog i {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+}
+.hazards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.hz {
+  background: var(--panel);
+  border-radius: 10px;
+  padding: 16px;
+  display: grid;
+  gap: 8px;
+  align-content: start;
+}
+.hz p {
+  color: var(--mute);
+  font-size: 0.95rem;
+}
+.hz .chips button {
+  font-size: 0.85rem;
+  padding: 3px 10px;
+}
+.tbl {
+  overflow-x: auto;
+  margin-bottom: 4px;
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+  min-width: 720px;
+  font-size: 0.92rem;
+}
+th,
+td {
+  text-align: left;
+  vertical-align: top;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--line);
+}
+th {
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--mute);
+  font-weight: 600;
+}
+td.n {
+  font-weight: 600;
+}
+.srcs {
+  margin: 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 6px;
 }
 .chat {
   display: grid;
   gap: 10px;
   margin-bottom: 14px;
-  max-height: 420px;
+  max-height: 440px;
   overflow: auto;
 }
 .msg {
@@ -158,26 +447,22 @@ canvas.ch {
 }
 .askrow input {
   flex: 1;
+  min-width: 0;
 }
 .note {
   color: var(--mute);
   font-size: 0.88rem;
   margin-top: 14px;
-  max-width: 70ch;
+  max-width: 72ch;
 }
-.toast {
-  position: fixed;
-  left: 50%;
-  bottom: calc(20px + env(safe-area-inset-bottom, 0px));
-  transform: translateX(-50%);
-  background: var(--ink);
-  color: var(--bg);
-  padding: 9px 16px;
+.report {
+  width: 100%;
+  min-height: 160px;
+  background: var(--bg);
+  border: 1.5px solid var(--line);
   border-radius: 8px;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.2s;
-}
-.toast.on {
-  opacity: 1;
+  padding: 10px;
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-size: 0.85rem;
+  margin-top: 10px;
 }

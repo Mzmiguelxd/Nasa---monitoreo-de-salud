@@ -1,104 +1,64 @@
-function route() {
-  const names = ["estado", "chequeo", "proyeccion", "medico"],
-    h = location.hash.slice(1),
-    v = names.includes(h) ? h : "estado";
-  document
-    .querySelectorAll(".view")
-    .forEach((s) => s.classList.toggle("on", s.dataset.view === v));
-  document
-    .querySelectorAll("nav a")
-    .forEach((a) =>
-      a.getAttribute("href") === "#" + v
-        ? a.setAttribute("aria-current", "page")
-        : a.removeAttribute("aria-current"),
-    );
-  if (v === "proyeccion") project();
+const VISTAS = ["panel", "registro", "tendencias", "misiones", "guia", "medico"];
+
+function vistaActual() {
+  const h = location.hash.slice(1);
+  return VISTAS.includes(h) ? h : "panel";
 }
 
-build();
-renderLog();
-route();
-for (let i = 0; i < 40; i++) {
-  const t = targets();
-  for (const k in BASE)
-    S.v[k] += (t[k] - S.v[k]) * 0.2 + (Math.random() - 0.5) * NOISE[k];
-  VIT.forEach((d) => S.h[d.k].push(S.v[d.k]));
+function ruta() {
+  const v = vistaActual();
+  $$(".view").forEach((s) => s.classList.toggle("on", s.dataset.view === v));
+  $$("nav a").forEach((a) => (a.getAttribute("href") === "#" + v ? a.setAttribute("aria-current", "page") : a.removeAttribute("aria-current")));
+  if (v !== "registro" && cam.on) pararPulso("Medición detenida al cambiar de sección.");
+  pintar();
+  window.scrollTo(0, 0);
 }
-render();
-setInterval(tick, 1000);
-if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
-  for (let i = 0; i < 600; i++) ecg.buf.push(wave((i / 170) % 1));
-  ecg.last = 0;
+
+function pintar() {
+  const E = evaluar();
+  alertar(E);
+  pintarPanel(E);
+  pintarMisiones();
+  const v = vistaActual();
+  if (v === "tendencias") pintarTendencias();
 }
-requestAnimationFrame(drawEcg);
-window.addEventListener("hashchange", route);
-window.addEventListener("resize", () => {
-  if ($('[data-view="proyeccion"]').classList.contains("on")) project();
-});
-matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {
-  if ($('[data-view="proyeccion"]').classList.contains("on")) project();
-});
-new MutationObserver(() => {
-  if ($('[data-view="proyeccion"]').classList.contains("on")) project();
-}).observe(document.documentElement, {
-  attributes: true,
-  attributeFilter: ["data-theme"],
-});
+
+function sonidoBtn() {
+  const b = $("#sound");
+  b.setAttribute("aria-pressed", S.sonido ? "true" : "false");
+  b.textContent = S.sonido ? "Sonido activado" : "Sonido apagado";
+}
+
+function tic() {
+  paso();
+  for (const k in S.v) {
+    const h = (S.h[k] = S.h[k] || []);
+    h.push(S.v[k]);
+    if (h.length > 40) h.shift();
+  }
+  pintar();
+}
+
+construirPanel();
+construirRegistro();
+construirTendencias();
+construirMisiones();
+construirGuia();
+construirAsistente();
+pintarBitacora();
+for (let i = 0; i < 40; i++) tic();
+sonidoBtn();
+ruta();
+setInterval(tic, 1000);
+requestAnimationFrame(dibujarEcg);
+window.addEventListener("hashchange", ruta);
+window.addEventListener("resize", () => vistaActual() === "tendencias" && pintarTendencias());
+matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => vistaActual() === "tendencias" && pintarTendencias());
+new MutationObserver(() => vistaActual() === "tendencias" && pintarTendencias()).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
 $("#alertOk").onclick = () => $("#alert").classList.remove("on");
 $("#sound").onclick = () => {
-  S.sound = !S.sound;
-  setSound();
-  disk.save();
-  if (!S.sound) {
-    if (tts) tts.stop();
-    try {
-      speechSynthesis.cancel();
-    } catch (e) {}
-  }
+  S.sonido = !S.sonido;
+  sonidoBtn();
+  disco.guardar();
+  if (!S.sonido) callar();
 };
-$("#pad").addEventListener("pointerdown", (e) => {
-  e.preventDefault();
-  pvtHit();
-});
-$("#pad").addEventListener("keydown", (e) => {
-  if (e.key === " " || e.key === "Enter") {
-    e.preventDefault();
-    pvtHit();
-  }
-});
-$("#saveCheck").onclick = () => {
-  const sym = [...document.querySelectorAll("#sym [aria-pressed='true']")].map(
-    (b) => b.dataset.k,
-  );
-  S.checkin = {
-    mood: +$("#mood").value,
-    stress: +$("#stress").value,
-    sleep: +$("#sleep").value,
-    sym,
-    day: S.day,
-  };
-  S.v.sleep = sleepNow();
-  delete S.done.vision;
-  delete S.done.animo;
-  log(
-    "Chequeo: ánimo " +
-      S.checkin.mood +
-      "/5, estrés " +
-      S.checkin.stress +
-      "/5, sueño " +
-      nf(S.checkin.sleep, 1) +
-      " h" +
-      (sym.length
-        ? ", síntomas: " +
-          sym
-            .map((k) => SYM.find((x) => x[0] === k)[1].toLowerCase())
-            .join(", ")
-        : ""),
-  );
-  toast("Chequeo guardado");
-  render();
-};
-$("#ask").onclick = () => ask($("#q").value);
-$("#q").addEventListener("keydown", (e) => {
-  if (e.key === "Enter") ask($("#q").value);
-});
